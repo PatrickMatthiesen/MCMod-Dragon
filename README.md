@@ -2,6 +2,10 @@
 Installation information
 =======
 
+```sh
+winget install EclipseAdoptium.Temurin.21.JDK
+```
+
 This template repository can be directly cloned to get you started with a new
 mod. Simply create a new repository cloned from this one, by following the
 instructions provided by [GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
