@@ -54,6 +54,8 @@ public class ExampleMod
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
     // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "slej_dragon" namespace
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
+    // Create a Deferred Register to hold EntityTypes which will all be registered under the "slej_dragon" namespace
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(Registries.ENTITY_TYPE, MODID);
 
     // Creates a new Block with the id "slej_dragon:example_block", combining the namespace and path
     public static final DeferredBlock<Block> EXAMPLE_BLOCK = BLOCKS.registerSimpleBlock("example_block", BlockBehaviour.Properties.of().mapColor(MapColor.STONE));
@@ -64,13 +66,23 @@ public class ExampleMod
     public static final DeferredItem<Item> EXAMPLE_ITEM = ITEMS.registerSimpleItem("example_item", new Item.Properties().food(new FoodProperties.Builder()
             .alwaysEdible().nutrition(1).saturationModifier(2f).build()));
 
-    // Creates a creative tab with the id "examplemod:example_tab" for the example item, that is placed after the combat tab
+    public static final DeferredItem<DeferredSpawnEggItem> ENDER_DRAGON_SPAWN_EGG = ITEMS.register("ender_dragon_spawn_egg", () -> 
+        new DeferredSpawnEggItem(() -> 
+            EntityType.ENDER_DRAGON, 
+            0x0DA70B,
+            0x000000,
+            new Item.Properties()
+        ));
+
+    // Creates a creative tab with the id "slej_dragon:example_tab" for the example item, that is placed after the combat tab
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
+            .title(Component.translatable("itemGroup.slej_dragon")) //The language key for the title of your CreativeModeTab
             .withTabsBefore(CreativeModeTabs.COMBAT)
             .icon(() -> EXAMPLE_ITEM.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 output.accept(EXAMPLE_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
                 output.accept(EXAMPLE_BLOCK_ITEM.get()); // Add the example block item to the tab. For your own tabs, this method is preferred over the event
+                output.accept(ENDER_DRAGON_SPAWN_EGG.get()); // Add the ender dragon spawn egg to the tab. For your own tabs, this method is preferred over the event
             }).build());
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
